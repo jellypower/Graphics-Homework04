@@ -1,0 +1,25 @@
+﻿  main.cpp
+D:\Graphics\Homework04\Homework04\MySphere.h(67,11): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Graphics\Homework04\Homework04\MySphere.h(68,11): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Graphics\Homework04\Homework04\Mesh.h(135,16): warning C4477: 'sscanf' : 서식 문자열 '%f'에 'float *' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'int *'입니다.
+D:\Graphics\Homework04\Homework04\Mesh.h(135,16): warning C4477: 'sscanf' : 서식 문자열 '%f'에 'float *' 형식의 인수가 필요하지만 variadic 인수 2의 형식이 'int *'입니다.
+D:\Graphics\Homework04\Homework04\Mesh.h(135,16): warning C4477: 'sscanf' : 서식 문자열 '%f'에 'float *' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'int *'입니다.
+D:\Graphics\Homework04\Homework04\main.cpp(76,12): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\Graphics\Homework04\Homework04\main.cpp(112,47): warning C4305: '인수': 'double'에서 'const GLfloat'(으)로 잘립니다.
+D:\Graphics\Homework04\Homework04\main.cpp(117,47): warning C4305: '인수': 'double'에서 'const GLfloat'(으)로 잘립니다.
+D:\Graphics\Homework04\Homework04\main.cpp(122,47): warning C4305: '인수': 'double'에서 'const GLfloat'(으)로 잘립니다.
+D:\Graphics\Homework04\Homework04\main.cpp(137,60): warning C4305: '인수': 'double'에서 'const GLfloat'(으)로 잘립니다.
+D:\Graphics\Homework04\Homework04\main.cpp(144,60): warning C4305: '인수': 'double'에서 'const GLfloat'(으)로 잘립니다.
+D:\Graphics\Homework04\Homework04\main.cpp(155,31): warning C4305: '인수': 'double'에서 'GLclampf'(으)로 잘립니다.
+D:\Graphics\Homework04\Homework04\main.cpp(165,49): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+D:\Graphics\Homework04\Homework04\main.cpp(191,32): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
+D:\Graphics\Homework04\Homework04\main.cpp(192,35): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
+D:\Graphics\Homework04\Homework04\main.cpp(193,36): warning C4305: '인수': 'double'에서 'GLfloat'(으)로 잘립니다.
+D:\Graphics\Homework04\Homework04\main.cpp(220,18): warning C4305: '+=': 'double'에서 'float'(으)로 잘립니다.
+freeglut_static_vs2015_d.lib(fg_geometry.obj) : warning LNK4099: 'freeglut_static.pdb' PDB를 'freeglut_static_vs2015_d.lib(fg_geometry.obj)' 또는 'D:\Graphics\Homework04\Debug\freeglut_static.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+freeglut_static_vs2015_d.lib(fg_joystick.obj) : warning LNK4099: 'freeglut_static.pdb' PDB를 'freeglut_static_vs2015_d.lib(fg_joystick.obj)' 또는 'D:\Graphics\Homework04\Debug\freeglut_static.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+freeglut_static_vs2015_d.lib(fg_teapot.obj) : warning LNK4099: 'freeglut_static.pdb' PDB를 'freeglut_static_vs2015_d.lib(fg_teapot.obj)' 또는 'D:\Graphics\Homework04\Debug\freeglut_static.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+freeglut_static_vs2015_d.lib(fg_font.obj) : warning LNK4099: 'freeglut_static.pdb' PDB를 'freeglut_static_vs2015_d.lib(fg_font.obj)' 또는 'D:\Graphics\Homework04\Debug\freeglut_static.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+freeglut_static_vs2015_d.lib(fg_menu.obj) : warning LNK4099: 'freeglut_static.pdb' PDB를 'freeglut_static_vs2015_d.lib(fg_menu.obj)' 또는 'D:\Graphics\Homework04\Debug\freeglut_static.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+freeglut_static_vs2015_d.lib(fg_joystick_mswin.obj) : warning LNK4099: 'freeglut_static.pdb' PDB를 'freeglut_static_vs2015_d.lib(fg_joystick_mswin.obj)' 또는 'D:\Graphics\Homework04\Debug\freeglut_static.pdb'에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+  Homework04.vcxproj -> D:\Graphics\Homework04\Debug\Homework04.exe
