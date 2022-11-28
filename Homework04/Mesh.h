@@ -39,11 +39,15 @@ public:
 	
 	indiceInTriangle* indexBuffer;
 	int GetIdxBufLen();
+
+	vec3* normalBuffer;
+	int GetNormalBufLen();
 	
 
 private:
 	unsigned int vertBufLen;
 	unsigned int idxBufLen;
+	unsigned int normalBufLen;
 
 	vector<vec3>* _vertBuf;
 	vector<indiceInTriangle>* _idxBuf;
@@ -88,6 +92,9 @@ int Mesh::GetVertBufLen() {
 	return vertBufLen;
 }
 
+int Mesh::GetNormalBufLen() {
+	return normalBufLen;
+}
 
 void Mesh::trimStr(char* str) {
 
@@ -143,6 +150,8 @@ void Mesh::parseFileToVert(FILE* file) {
 
 	vertBuffer = _vertBuf->data();
 	indexBuffer = _idxBuf->data();
+
+	normalBufLen = idxBufLen * 3;
 
 
 }

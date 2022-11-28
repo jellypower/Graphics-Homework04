@@ -72,8 +72,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\cg\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\cg\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\cg2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\cg2\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
