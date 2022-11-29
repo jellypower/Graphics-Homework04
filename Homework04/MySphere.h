@@ -7,7 +7,8 @@ struct MySphereVertex
 {
 	vec4 position;
 	vec4 color;
-	vec3 normal;
+	vec3 PhongNormal;
+	vec3 GouradNormal;
 };
 
 class MySphere
@@ -88,16 +89,16 @@ GLuint MySphere::Init(int la_slice, int lo_slice, vec4 color)
 			if(i!=lo_slice-1)
 			{
 				vec3 n = -computeNormal(a, b, c);
-				Vertices[cur].position = a;	Vertices[cur].color = color; Vertices[cur].normal = a;  cur++;
-				Vertices[cur].position = b;	Vertices[cur].color = color; Vertices[cur].normal = b; cur ++;
-				Vertices[cur].position = c;	Vertices[cur].color = color; Vertices[cur].normal = c; cur ++;
+				Vertices[cur].position = a;	Vertices[cur].color = color; Vertices[cur].PhongNormal = a;  cur++;
+				Vertices[cur].position = b;	Vertices[cur].color = color; Vertices[cur].PhongNormal = b; cur ++;
+				Vertices[cur].position = c;	Vertices[cur].color = color; Vertices[cur].PhongNormal = c; cur ++;
 			}
 			if(i!=0)
 			{
 				vec3 n = -computeNormal(c, d, a);
-				Vertices[cur].position = c;	Vertices[cur].color = color; Vertices[cur].normal = c; cur ++;
-				Vertices[cur].position = d;	Vertices[cur].color = color; Vertices[cur].normal = d; cur ++;
-				Vertices[cur].position = a;	Vertices[cur].color = color; Vertices[cur].normal = a; cur ++;
+				Vertices[cur].position = c;	Vertices[cur].color = color; Vertices[cur].PhongNormal = c; cur ++;
+				Vertices[cur].position = d;	Vertices[cur].color = color; Vertices[cur].PhongNormal = d; cur ++;
+				Vertices[cur].position = a;	Vertices[cur].color = color; Vertices[cur].PhongNormal = a; cur ++;
 			}
 		}
 	}
@@ -123,9 +124,9 @@ void MySphere::SetPositionAndOtherAttributes(GLuint program)
 	glEnableVertexAttribArray(vColor);
 	glVertexAttribPointer(vColor, 4, GL_FLOAT, GL_FALSE, sizeof(MySphereVertex), BUFFER_OFFSET(sizeof(vec4)));
 
-	GLuint vNormal = glGetAttribLocation(program, "vNormal");
-	glEnableVertexAttribArray(vNormal);
-	glVertexAttribPointer(vNormal, 3, GL_FLOAT, GL_TRUE, sizeof(MySphereVertex), BUFFER_OFFSET(sizeof(vec4)+ sizeof(vec4)));
+	GLuint vPhongNormal = glGetAttribLocation(program, "vPhongNormal");
+	glEnableVertexAttribArray(vPhongNormal);
+	glVertexAttribPointer(vPhongNormal, 3, GL_FLOAT, GL_TRUE, sizeof(MySphereVertex), BUFFER_OFFSET(sizeof(vec4)+ sizeof(vec4)));
 
 }
 

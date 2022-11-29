@@ -3,13 +3,14 @@
 #include "MyCube.h"
 #include "MySphere.h"
 #include "Mesh.h"
-#include "MeshRenderer.h"
+#include "MyMeshRenderer.h"
 
 #include <vec.h>
 #include <mat.h>
 
 MyCube cube;
 MySphere sphere;
+MyMeshRenderer meshRenderer;
 
 GLuint program;
 GLuint prog_phong;
@@ -21,7 +22,15 @@ mat4 g_Mat = mat4(1.0f);
 int winWidth = 500;
 int winHeight = 500;
 
-bool bPlay = true;
+
+
+bool bPlay = false;
+float spec = 0.3;
+float shiness = 20.0;
+
+float xAng = 0, yAng = 0, zAng = 0;
+float xAngVel = 0.016*30, yAngVel = 0, zAngVel = 0;
+
 
 mat4 myLookAt(vec3 eye, vec3 at, vec3 up)
 {
@@ -100,6 +109,7 @@ mat4 myPerspective(float fovy, float aspectRatio, float zNear, float zFar)
 void myInit()
 {
 	cube.Init();
+	meshRenderer.Init("dragon.obj");
 	sphere.Init(40, 40);
 
 	program = InitShader("vshader.glsl", "fshader.glsl");
@@ -109,54 +119,35 @@ void myInit()
 void DrawAxis()
 {
 	glUseProgram(program);
-	mat4 x_a= Translate(1.,0,0)*Scale(2,0.05,0.05);
+	mat4 x_a= RotateZ(zAng) * RotateY(yAng) * RotateX(xAng) * Translate(0.5,0,0)* Scale(1,0.01,0.01);
 	glUniformMatrix4fv(uMat, 1, GL_TRUE, g_Mat*x_a);
 	glUniform4f(uColor, 1, 0, 0, 1);
 	cube.Draw(program);
 
-	mat4 y_a= Translate(0,1.,0)*Scale(0.05,2,0.05);
+	mat4 y_a= RotateZ(zAng) * RotateY(yAng) * RotateX(xAng) * Translate(0,0.5,0)*Scale(0.01,1,0.01);
 	glUniformMatrix4fv(uMat, 1, GL_TRUE, g_Mat*y_a);
 	glUniform4f(uColor, 0, 1, 0, 1);
 	cube.Draw(program);
 
-	mat4 z_a= Translate(0,0,1.)*Scale(0.05,0.05,2);
+	mat4 z_a= RotateZ(zAng) * RotateY(yAng) * RotateX(xAng) * Translate(0,0,0.5)*Scale(0.01,0.01,1);
 	glUniformMatrix4fv(uMat, 1, GL_TRUE, g_Mat*z_a);
 	glUniform4f(uColor, 0, 0, 1, 1);
 	cube.Draw(program);
-}
 
-void DrawGrid()
-{
-	glUseProgram(program);
-	float n = 40;
-	float w = 10;
-	float h = 10;
 
-	for(int i=0; i<n; i++)
-	{
-		mat4 m = Translate(0,-0.5,-h+2*h/n*i)*Scale(w*2,0.02,0.02);
-		glUniformMatrix4fv(uMat, 1, GL_TRUE, g_Mat*m);
-		glUniform4f(uColor, 1, 1, 1, 1);
-		cube.Draw(program);
-	}
-	for(int i=0; i<n; i++)
-	{
-		mat4 m = Translate(-w+2*w/n*i,-0.5,0)*Scale(0.02,0.02,h*2);
-		glUniformMatrix4fv(uMat, 1, GL_TRUE, g_Mat*m);
-		glUniform4f(uColor, 1, 1, 1, 1);
-		cube.Draw(program);
-	}
 }
 
 float g_Time = 0;
 
+float eye = 3;
+
 void display()
 {
-	glClearColor(0.7, 0.7, 0.7, 1);
+	glClearColor(0, 0, 0, 1);
 	glEnable(GL_DEPTH_TEST);
 	glClear(GL_DEPTH_BUFFER_BIT|GL_COLOR_BUFFER_BIT);
 		
-	mat4 ViewMat = myLookAt(vec3(2,2,2), vec3(0,0,0), vec3(0,1,0));
+	mat4 ViewMat = myLookAt(vec3(0, 0, eye), vec3(0,0,0), vec3(0,1,0));
 
 	float aspect = winWidth/(float)winHeight;
 	float h = 1;
@@ -171,15 +162,15 @@ void display()
 	uColor = glGetUniformLocation(program, "uColor");
 
 	DrawAxis();
-	DrawGrid();
-
-
 
 	glUseProgram(prog_phong);
 	GLuint uProjMat = glGetUniformLocation(prog_phong, "uProjMat");
 	GLuint uModelMat = glGetUniformLocation(prog_phong, "uModelMat");
 
-	mat4 ModelMat = RotateY(g_Time*30);
+
+	Mesh *meshInfo = meshRenderer.MeshInfo;
+	float s = 1/(meshInfo->GetMaxPos().x - meshInfo->GetMinPos().x);
+	mat4 ModelMat = RotateZ(zAng) * RotateY(yAng) * RotateX(xAng) * Scale(vec3(s, s, s));
 	glUniformMatrix4fv(uProjMat, 1, GL_TRUE, ProjMat);
 	glUniformMatrix4fv(uModelMat, 1, GL_TRUE, ViewMat * ModelMat);
 	
@@ -190,8 +181,9 @@ void display()
 	// 2. material properties (phong coeff.)
 	vec4 mAmb = vec4(0.2,0.2,0.3,1);
 	vec4 mDif = vec4(0.6, 0.3, 0.3, 1);
-	vec4 mSpec = vec4(0.3, 0.3, 0.3, 1);
-	float shiness = 100.0;
+	vec4 mSpec = vec4(spec, spec, spec, 1);
+	
+
 
 	GLuint uLPos = glGetUniformLocation(prog_phong, "uLPos");
 	GLuint uLCol = glGetUniformLocation(prog_phong, "uLCol");
@@ -199,7 +191,11 @@ void display()
 	GLuint uDif = glGetUniformLocation(prog_phong, "uDif");
 	GLuint uSpec = glGetUniformLocation(prog_phong, "uSpec");
 	GLuint uShiness = glGetUniformLocation(prog_phong, "uShiness");
-	   
+	
+	GLuint uShadingType = glGetUniformLocation(prog_phong, "uShadingType");
+	  
+
+
 	glUniform4f(uLPos, lpos[0], lpos[1], lpos[2], lpos[3]);
 	glUniform4f(uLCol, lcol[0], lcol[1], lcol[2], lcol[3]);
 	glUniform4f(uAmb, mAmb[0], mAmb[1], mAmb[2], mAmb[3]);
@@ -208,16 +204,32 @@ void display()
 	glUniform1f(uShiness, shiness);
 
 
-	sphere.Draw(prog_phong);
+
+	glUniform1ui(uShadingType, meshRenderer.ShadeType); // ============================================================== 여기서부터 계속하기.
+
 	
+
+	//mesh.Draw(program);
+	meshRenderer.Draw(prog_phong);
+	
+	//sphere.Draw(program);
+	//sphere.Draw(prog_phong);
+	
+	//cube.Draw(prog_phong);
+
+
 	glutSwapBuffers();
 }
 
 
 void idle()
 {
-	if(bPlay)
+	if (bPlay) {
 		g_Time += 0.016;
+		xAng += xAngVel;
+		yAng += yAngVel;
+		zAng += zAngVel;
+	}
 	Sleep(16);					// for vSync
 	glutPostRedisplay();
 }
@@ -234,7 +246,56 @@ void keyboard(unsigned char c, int x, int y)
 {
 	if (c == ' ')
 		bPlay = !bPlay;
+	if (c == '1')
+		meshRenderer.ShadeType = PhongShading;
+	if (c == '2')
+		meshRenderer.ShadeType = GouradShading;
+	if (c == '3') {
+		spec += 0.1;
+	}
+	if (c == '4') {
+		spec -= 0.1;
+		spec = spec < 0 ? 0 : spec;
+	}
+	if (c == '5') {
+		shiness += 1;
+		shiness = shiness > 20 ? 20 : shiness;
+	}
+	if (c == '6') {
+		shiness -= 1;
+		shiness = shiness < 1 ? 1 : shiness;
+	}
 
+}
+
+void mouse(int button, int state, int x, int y) {
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+		xAngVel = 0.016 * 30;
+		yAngVel = 0;
+		zAngVel = 0;
+	}
+	if (button == GLUT_MIDDLE_BUTTON && state == GLUT_DOWN) {
+		xAngVel = 0;
+		yAngVel = 0.016 * 30;
+		zAngVel = 0;
+	}
+	if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) {
+		xAngVel = 0;
+		yAngVel = 0;
+		zAngVel = 0.016 * 30;
+	}
+
+}
+
+void mouseWheel(int button, int dir, int x, int y) {
+	if (dir < 0) {
+		eye += 0.1;
+		eye = eye > 3 ? 3 : eye;
+	}
+	else {
+		eye -= 0.1;
+		eye = eye < 1 ? 1 : eye;
+	}
 }
 
 int main(int argc, char ** argv)
@@ -259,6 +320,8 @@ int main(int argc, char ** argv)
 	glutIdleFunc(idle);
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboard);
+	glutMouseFunc(mouse);
+	glutMouseWheelFunc(mouseWheel);
 	glutMainLoop();
 
 	return 0;

@@ -24,7 +24,7 @@
     <ClInclude Include="MySphere.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="MeshRenderer.h">
+    <ClInclude Include="MyMeshRenderer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">

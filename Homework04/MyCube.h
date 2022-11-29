@@ -147,7 +147,7 @@ void MyCube::SetPositionAndColorAttribute(GLuint program)
 	glEnableVertexAttribArray(vColor);
 	glVertexAttribPointer(vColor, 4, GL_FLOAT, GL_FALSE, sizeof(MyCubeVertex), BUFFER_OFFSET(sizeof(vec4)));
 
-	GLuint vNormal = glGetAttribLocation(program, "vNormal");
+	GLuint vNormal = glGetAttribLocation(program, "vPhongNormal");
 	glEnableVertexAttribArray(vNormal);
 	glVertexAttribPointer(vNormal, 3, GL_FLOAT, GL_FALSE, sizeof(MyCubeVertex), BUFFER_OFFSET(sizeof(vec4)+sizeof(vec4)));
 
@@ -163,4 +163,6 @@ void MyCube::Draw(GLuint program)
 	SetPositionAndColorAttribute(program);
 	
 	glDrawArrays(GL_TRIANGLES, 0, NumVertices);
+
+
 }

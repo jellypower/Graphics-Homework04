@@ -5,7 +5,8 @@
 
 in vec4 vPosition;
 in vec4 vColor;
-in vec3 vNormal;
+in vec3 vPhongNormal;
+in vec3 vGouradNormal;
 
 //out vec4 color;
 out vec3 N3;
@@ -21,7 +22,7 @@ uniform vec4 uDif;
 uniform vec4 uSpec;
 uniform float uShiness;
 
-uniform uint ShadingType;
+uniform uint uShadingType;
 
 void main()
 {
@@ -30,11 +31,25 @@ void main()
 
 	vec4 lPos = uLPos;
 	vec4 vPos = uModelMat * vPosition;
+	
+	vec4 N;
 
-	vec4 N = uModelMat*vec4(vNormal,0);
+	switch(uShadingType){
+		case PhongShading:
+			N = uModelMat*vec4(vPhongNormal,0);
+			break;
+		case GouradShading:
+			N = uModelMat*vec4(vGouradNormal,0);
+			break;
+		default:
+			N = uModelMat*vec4(vPhongNormal,0);
+			break;
+	}
 	vec4 L = lPos - vPos;
 	N3 = normalize(N.xyz);
 	L3 = normalize(L.xyz);
 	V3 = normalize(vec3(0,0,0) - vPos.xyz);
 
 }
+
+
